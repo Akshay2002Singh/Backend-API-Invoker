@@ -2,19 +2,25 @@ import requests,json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt    
+def home(request):
+    return JsonResponse({
+        "message" : "You can use /api to call api using post method",
+    })
+
+
+@csrf_exempt
 def call(request):
     if request.method == 'POST':
         try:
             # get body of request
             body = json.loads(request.body)
-            # get api parameter from body 
+            # get api parameter from body
             api = body['api']
-            # make request on api 
+            # make request on api
             x = requests.get(api)
             # convert data from json to python object
             x = json.loads(x.text)
-            # return as json 
+            # return as json
             return JsonResponse(x)
         except:
             return JsonResponse({
